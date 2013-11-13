@@ -85,6 +85,7 @@ package com.manuelodelain.feathers.controls.accordion
 				_tweenViewport.animate('height', viewportHeight);
 				_tweenViewport.roundToInt = true;//roundProps for fix the blink when collapsing item
 				_tweenViewport.onComplete = _onTweenViewportComplete;
+				
 				Starling.current.juggler.add(_tweenViewport);
 			}else{
 				 viewPort.height = viewportHeight;
