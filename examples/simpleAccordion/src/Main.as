@@ -2,13 +2,11 @@ package simpleAccordion.src
 {
 	import starling.core.Starling;
 	import starling.events.Event;
-	import starling.utils.AssetManager;
 
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
-	import flash.system.Capabilities;
 	/**
 	 * @author Manuel Odelain
 	 */
@@ -18,7 +16,6 @@ package simpleAccordion.src
 		
 		protected var _starling:Starling;
 		protected var _app:Root;
-		protected var _assets:AssetManager;
 		
 		public function Main()
 		{
@@ -42,19 +39,10 @@ package simpleAccordion.src
 		{
 			_starling = new Starling(Root, stage);
 			_starling.addEventListener(starling.events.Event.ROOT_CREATED, _onRootCreated);
-			
-			_assets = new AssetManager(Starling.current.contentScaleFactor);
-			_assets.verbose = Capabilities.isDebugger;
-			_assets.enqueue(
-//				appDir.resolvePath(formatString("textures/common/{0}x/ui.png", Assets.scaleFactor)),
-			);
 		}
 		
 		protected function _startApp():void
 		{
-			_app.start(_assets);
-			_assets = null;
-			
 			_starling.start();
 		}
 

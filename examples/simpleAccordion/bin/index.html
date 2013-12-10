@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Feathers Accordion</title>
+		<meta name="description" content="">
+		<style type="text/css">	
+			html{
+				
+				height:100%;
+				overflow: hidden;
+			}	
+			
+			body{
+				height:100%;
+				margin: 0;
+				padding: 0;
+				overflow-y:hidden
+			}
+		 
+		</style> 
+		<script type="text/javascript" src="js/swfobject.js"></script>
+		<script type="text/javascript">
+
+				var flashvars = {};
+				var params = {};
+				var attributes = {};
+
+				params.allowscriptaccess = "true";
+				params.allowscriptaccess = "always";
+				params.wmode = "direct";
+
+				attributes.id = "flash";
+
+				swfobject.embedSWF("swf/main.swf", "myContent", "100%", "100%", "11.0.0", "swf/expressInstall.swf", flashvars, params, attributes);
+		</script>
+	</head>
+	<body>
+		<div id="myContent">
+			<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash Player" />
+		</div> 
+	</body>
+</html>

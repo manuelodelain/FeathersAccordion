@@ -1,5 +1,9 @@
 package simpleAccordion.src
 {
+	import feathers.controls.Button;
+
+	import simpleAccordion.src.feathers.themes.MetalWorksMobileTheme;
+
 	import starling.display.Sprite;
 	import starling.utils.AssetManager;
 
@@ -13,7 +17,17 @@ package simpleAccordion.src
 		public function Root()
 		{
 		}
-		
+
+		private function _init():void
+		{
+			trace('_init: ' + (_init));
+			new MetalWorksMobileTheme();
+			
+			var btn:Button = new Button();
+			btn.label = "test";
+			addChild(btn);
+		}
+
 		private function _onLoadProgress(ratio:Number):void
 		{
 			trace('_onLoadProgress: ' + (_onLoadProgress));
@@ -22,15 +36,15 @@ package simpleAccordion.src
 
 		private function _onLoadComplete():void
 		{
-			
 			trace('_onLoadComplete: ' + (_onLoadComplete));
 		}
 
 		public function start(assets:AssetManager):void
 		{
 			_assets = assets;
-			
 			_assets.loadQueue(_onLoadProgress);
+			
+			_init();
 		}
 	}
 }
