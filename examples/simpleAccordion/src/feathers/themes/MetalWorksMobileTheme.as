@@ -24,6 +24,7 @@
  */
 package simpleAccordion.src.feathers.themes
 {
+	import com.manuelodelain.feathers.controls.accordion.AccordionItem;
 	import feathers.controls.Alert;
 	import feathers.controls.Button;
 	import feathers.controls.ButtonGroup;
@@ -514,6 +515,12 @@ package simpleAccordion.src.feathers.themes
 			this.setInitializerForClass(Panel, panelInitializer);
 			this.setInitializerForClass(Alert, alertInitializer);
 			this.setInitializerForClass(ScrollContainer, scrollContainerToolbarInitializer, ScrollContainer.ALTERNATE_NAME_TOOLBAR);
+			
+//			this.setInitializerForClass(Button, accordionItemHeaderInitializer, AccordionItem.HEADER);
+		}
+
+		private function accordionItemHeaderInitializer(button:Button):void
+		{
 		}
 
 		protected function pageIndicatorNormalSymbolFactory():DisplayObject

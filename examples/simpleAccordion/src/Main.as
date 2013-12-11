@@ -10,7 +10,7 @@ package simpleAccordion.src
 	/**
 	 * @author Manuel Odelain
 	 */
-	[SWF(backgroundColor="#FFFFFF", frameRate="60", width="800", height="600")] 
+	[SWF(backgroundColor="#4a4137", frameRate="60", width="800", height="600")] 
 	public class Main extends Sprite
 	{
 		
@@ -19,24 +19,17 @@ package simpleAccordion.src
 		
 		public function Main()
 		{
-			mouseEnabled = false;
-			mouseChildren = false;
-			
-			stage.scaleMode = StageScaleMode.NO_SCALE;
-			stage.align = StageAlign.LEFT;
-			
-			stage.addEventListener(flash.events.Event.RESIZE, _onResizeStage);
-		}
-
-		private function _onResizeStage(event:flash.events.Event):void
-		{
-			stage.removeEventListener(flash.events.Event.RESIZE, _onResizeStage);
-			
 			_init();
 		}
 
 		private function _init():void
 		{
+            mouseEnabled = false;
+			mouseChildren = false;
+			
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.align = StageAlign.LEFT;
+            
 			_starling = new Starling(Root, stage);
 			_starling.addEventListener(starling.events.Event.ROOT_CREATED, _onRootCreated);
 		}
@@ -44,11 +37,11 @@ package simpleAccordion.src
 		protected function _startApp():void
 		{
 			_starling.start();
+            _app.start();
 		}
 
 		protected function _onRootCreated(event:starling.events.Event, app:Root):void
 		{
-			trace('_onRootCreated: ' + (_onRootCreated));
 			_starling.removeEventListener(starling.events.Event.ROOT_CREATED, _onRootCreated);
 
 			_app = app;

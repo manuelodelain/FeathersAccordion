@@ -12,7 +12,11 @@ package com.manuelodelain.feathers.controls.accordion
 	 */
 	public class AccordionItem extends Panel
 	{
+		public static const HEADER:String = "accordionItemHeader";
+		
 		protected var _id:String;
+		protected var _label:String;
+		protected var _header:Button;
 		protected var _isExpanded:Boolean;
 		protected var _expandedHeight:Number;
 		protected var _tweenViewport:Tween;
@@ -33,7 +37,11 @@ package com.manuelodelain.feathers.controls.accordion
 		
 		protected function _createHeader():Button 
 		{
-			return null;
+			_header = new Button();
+			_header.nameList.add(HEADER);
+			if (_label) _header.label = _label;
+			
+			return _header;
 		}
 
 		protected function _onTriggered(event:Event):void
@@ -126,6 +134,17 @@ package com.manuelodelain.feathers.controls.accordion
 		public function set id(id:String):void
 		{
 			_id = id;
+		}
+
+		public function get label():String
+		{
+			return _label;
+		}
+
+		public function set label(label:String):void
+		{
+			_label = label;
+			if (_header) _header.label = _label;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.manuelodelain.feathers.controls.accordion
 {
+	import feathers.layout.VerticalLayout;
 	import starling.events.Event;
 	import feathers.controls.ScrollContainer;
 
@@ -19,6 +20,8 @@ package com.manuelodelain.feathers.controls.accordion
 			super.initialize();
 			
 			_items = new Vector.<AccordionItem>();
+			
+			layout = new VerticalLayout();
 
 			addEventListener(Event.SELECT, _onSelectItem);
 		}

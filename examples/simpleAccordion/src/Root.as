@@ -1,11 +1,12 @@
 package simpleAccordion.src
 {
-	import feathers.controls.Button;
-
 	import simpleAccordion.src.feathers.themes.MetalWorksMobileTheme;
 
 	import starling.display.Sprite;
 	import starling.utils.AssetManager;
+
+	import com.manuelodelain.feathers.controls.accordion.Accordion;
+	import com.manuelodelain.feathers.controls.accordion.AccordionItem;
 
 	/**
 	 * @author Manuel Odelain
@@ -20,30 +21,22 @@ package simpleAccordion.src
 
 		private function _init():void
 		{
-			trace('_init: ' + (_init));
 			new MetalWorksMobileTheme();
 			
-			var btn:Button = new Button();
-			btn.label = "test";
-			addChild(btn);
-		}
-
-		private function _onLoadProgress(ratio:Number):void
-		{
-			trace('_onLoadProgress: ' + (_onLoadProgress));
-			if (ratio === 1) _onLoadComplete();
-		}
-
-		private function _onLoadComplete():void
-		{
-			trace('_onLoadComplete: ' + (_onLoadComplete));
-		}
-
-		public function start(assets:AssetManager):void
-		{
-			_assets = assets;
-			_assets.loadQueue(_onLoadProgress);
+			var accordion:Accordion = new Accordion();
+			addChild(accordion);
 			
+			var item1:AccordionItem = new AccordionItem();
+			item1.label = "Item 1";
+			accordion.add(item1);
+			
+			var item2:AccordionItem = new AccordionItem();
+			item2.label = "Item 2";
+			accordion.add(item2);
+		}
+
+		public function start():void
+		{
 			_init();
 		}
 	}

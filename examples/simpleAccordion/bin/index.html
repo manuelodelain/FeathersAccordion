@@ -7,7 +7,6 @@
 		<meta name="description" content="">
 		<style type="text/css">	
 			html{
-				
 				height:100%;
 				overflow: hidden;
 			}	
@@ -16,7 +15,11 @@
 				height:100%;
 				margin: 0;
 				padding: 0;
-				overflow-y:hidden
+				overflow-y:hidden;
+				background-color: #4a4137;
+			}
+			
+			#content{
 			}
 		 
 		</style> 
@@ -33,12 +36,14 @@
 
 				attributes.id = "flash";
 
-				swfobject.embedSWF("swf/main.swf", "myContent", "100%", "100%", "11.0.0", "swf/expressInstall.swf", flashvars, params, attributes);
+				swfobject.embedSWF("swf/main.swf", "flashContent", "800", "600", "11.0.0", "swf/expressInstall.swf", flashvars, params, attributes);
 		</script>
 	</head>
 	<body>
-		<div id="myContent">
-			<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash Player" />
+		<div id="content">
+			<div id="flashContent">
+				<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash Player" />
+			</div>
 		</div> 
 	</body>
 </html>
