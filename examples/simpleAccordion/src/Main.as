@@ -10,7 +10,7 @@ package simpleAccordion.src
 	/**
 	 * @author Manuel Odelain
 	 */
-	[SWF(backgroundColor="#4a4137", frameRate="60", width="800", height="600")] 
+	[SWF(backgroundColor="#4a4137", frameRate="60", width="640", height="960")] 
 	public class Main extends Sprite
 	{
 		

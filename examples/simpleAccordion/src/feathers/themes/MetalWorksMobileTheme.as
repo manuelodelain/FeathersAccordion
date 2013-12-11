@@ -305,7 +305,9 @@ package simpleAccordion.src.feathers.themes
 		protected function initialize():void
 		{
 			const scaledDPI:int = DeviceCapabilities.dpi / Starling.contentScaleFactor;
+			
 			this._originalDPI = scaledDPI;
+			
 			if(this._scaleToDPI)
 			{
 				if(DeviceCapabilities.isTablet(Starling.current.nativeStage))
@@ -581,6 +583,7 @@ package simpleAccordion.src.feathers.themes
 			label.textRendererProperties.textFormat = this.lightTextFormat;
 			label.textRendererProperties.disabledTextFormat = this.disabledTextFormat;
 			label.textRendererProperties.embedFonts = true;
+			label.textRendererProperties.wordWrap = true;
 		}
 
 		protected function headingLabelInitializer(label:Label):void

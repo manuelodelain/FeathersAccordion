@@ -29,11 +29,14 @@ package com.manuelodelain.feathers.controls.accordion
 		protected function _onSelectItem(event:Event):void
 		{
 			event.stopImmediatePropagation();
+			
+			
 		}
 
 		public function add(item:AccordionItem):void
 		{
 			_items.push(item);
+			item.width = explicitWidth;
 			addChild(item);
 		}
 		
