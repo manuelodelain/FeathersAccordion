@@ -1,5 +1,8 @@
 package com.manuelodelain.feathers.controls.accordion
 {
+	import starling.display.DisplayObject;
+	import flash.geom.Rectangle;
+	import feathers.controls.ScrollContainer;
 	import feathers.controls.Button;
 	import feathers.controls.Panel;
 
@@ -10,7 +13,7 @@ package com.manuelodelain.feathers.controls.accordion
 	/**
 	 * @author Manuel Odelain
 	 */
-	public class AccordionItem extends Panel
+	public class AccordionItem extends Panel implements IAccordionItem
 	{
 		public static const HEADER:String = "accordionItemHeader";
 		
@@ -21,14 +24,20 @@ package com.manuelodelain.feathers.controls.accordion
 		protected var _expandedHeight:Number;
 		protected var _tweenViewport:Tween;
 		protected var _tweenViewportCompleteCallback:Function;
+		protected var _container:ScrollContainer = new ScrollContainer();;
 		
 		public function AccordionItem()
 		{
+			
 		}
 		
 		override protected function initialize():void
 		{
 			super.initialize();
+			
+			_container.verticalScrollPolicy = _container.horizontalScrollPolicy = ScrollContainer.SCROLL_POLICY_OFF;
+			addChild(_container);
+			_container.validate();
 			
 			viewPort.height = 0;
 			headerFactory = _createHeader;
@@ -39,12 +48,21 @@ package com.manuelodelain.feathers.controls.accordion
 		{
 			_header = new Button();
 			_header.nameList.add(HEADER);
+			_header.addEventListener(Event.TRIGGERED, _onHeaderTriggered);
 			if (_label) _header.label = _label;
 			
 			return _header;
 		}
+		
+		override protected function draw():void
+		{
+			super.draw();
+			
+			if (isInvalid(INVALIDATION_FLAG_LAYOUT))
+				_container.layout = layout;
+		}
 
-		protected function _onTriggered(event:Event):void
+		protected function _onHeaderTriggered(event:Event):void
 		{
 			_onSelect();
 		}
@@ -74,7 +92,12 @@ package com.manuelodelain.feathers.controls.accordion
 		{
 			_tweenViewport = null;
 			_tweenViewportCompleteCallback = null;
-			
+		}
+
+		public function add(child:DisplayObject):void
+		{
+			_container.addChild(child);
+			_container.validate();
 		}
 
 		public function toggle() : void 
@@ -86,7 +109,7 @@ package com.manuelodelain.feathers.controls.accordion
 		public function resizeViewport(viewportHeight:Number, withAnim:Boolean = true, onComplete:Function = null):void
 		{
 			if (withAnim) {
-				if (onComplete)
+				if (onComplete !== null)
 					_tweenViewportCompleteCallback = onComplete;
 				
 				_tweenViewport = new Tween(viewPort, .5);
@@ -108,7 +131,7 @@ package com.manuelodelain.feathers.controls.accordion
 			_isExpanded = true;
 			
 			_onExpand();
-			resizeViewport(_expandedHeight, withAnim, _onExpanded);
+			resizeViewport(_container.height, withAnim, _onExpanded);
 		}
 		
 		public function collapse(withAnim:Boolean = true):void

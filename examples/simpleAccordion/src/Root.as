@@ -31,6 +31,7 @@ package simpleAccordion.src
 			
 			var accordion:Accordion = new Accordion();
 			accordion.width = 400;
+			accordion.isToggle = true;
 			addChild(accordion);
 			
 			var item1:AccordionItem = new AccordionItem();
@@ -42,7 +43,7 @@ package simpleAccordion.src
 			label1.width = 350;
 			label1.x = 10;
 			label1.y = 10;
-			item1.addChild(label1);
+			item1.add(label1);
 			
 			var item2:AccordionItem = new AccordionItem();
 			item2.label = "Item 2";
@@ -54,11 +55,11 @@ package simpleAccordion.src
 			
 			var btn1:Button = new Button();
 			btn1.label = "Button 1";
-			item2.addChild(btn1);
+			item2.add(btn1);
 			
 			var btn2:Button = new Button();
 			btn2.label = "Button 2";
-			item2.addChild(btn2);
+			item2.add(btn2);
 		}
 
 		public function start():void

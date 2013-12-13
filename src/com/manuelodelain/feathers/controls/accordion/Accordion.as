@@ -9,7 +9,9 @@ package com.manuelodelain.feathers.controls.accordion
 	 */
 	public class Accordion extends ScrollContainer
 	{
-		protected var _items:Vector.<AccordionItem>;
+		protected var _items:Vector.<IAccordionItem>;
+		protected var _selectedItem:IAccordionItem;
+		protected var _isToggle:Boolean;
 		
 		public function Accordion()
 		{
@@ -19,7 +21,7 @@ package com.manuelodelain.feathers.controls.accordion
 		{
 			super.initialize();
 			
-			_items = new Vector.<AccordionItem>();
+			_items = new Vector.<IAccordionItem>();
 			
 			layout = new VerticalLayout();
 
@@ -30,7 +32,19 @@ package com.manuelodelain.feathers.controls.accordion
 		{
 			event.stopImmediatePropagation();
 			
+			var item:IAccordionItem = IAccordionItem(event.target);
 			
+			if (item === _selectedItem) {
+				_selectedItem.collapse();
+				_selectedItem = null;
+				return;
+			}
+			
+			if (_isToggle && _selectedItem) _selectedItem.collapse();
+				
+			_selectedItem = item;
+			
+			item.expand();
 		}
 
 		public function add(item:AccordionItem):void
@@ -50,5 +64,16 @@ package com.manuelodelain.feathers.controls.accordion
 			_items.splice(index, 1);
 			removeChild(item);
 		}
+
+		public function get isToggle():Boolean
+		{
+			return _isToggle;
+		}
+
+		public function set isToggle(isToggle:Boolean):void
+		{
+			_isToggle = isToggle;
+		}
+
 	}
 }
