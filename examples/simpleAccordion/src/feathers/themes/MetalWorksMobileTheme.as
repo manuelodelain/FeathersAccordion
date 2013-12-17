@@ -523,6 +523,8 @@ package simpleAccordion.src.feathers.themes
 
 		private function accordionItemHeaderInitializer(button:Button):void
 		{
+			this.buttonInitializer(button);
+			button.horizontalAlign = Button.HORIZONTAL_ALIGN_LEFT;
 		}
 
 		protected function pageIndicatorNormalSymbolFactory():DisplayObject

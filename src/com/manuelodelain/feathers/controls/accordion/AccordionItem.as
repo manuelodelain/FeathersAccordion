@@ -24,7 +24,7 @@ package com.manuelodelain.feathers.controls.accordion
 		protected var _expandedHeight:Number;
 		protected var _tweenViewport:Tween;
 		protected var _tweenViewportCompleteCallback:Function;
-		protected var _container:ScrollContainer = new ScrollContainer();;
+		protected var _container:ScrollContainer = new ScrollContainer();
 		
 		public function AccordionItem()
 		{
@@ -97,7 +97,7 @@ package com.manuelodelain.feathers.controls.accordion
 		public function add(child:DisplayObject):void
 		{
 			_container.addChild(child);
-			_container.validate();
+			if (_container.parent) _container.validate();
 		}
 
 		public function toggle() : void 

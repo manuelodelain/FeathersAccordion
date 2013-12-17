@@ -46,6 +46,16 @@ package com.manuelodelain.feathers.controls.accordion
 			
 			item.expand();
 		}
+		
+		override public function dispose():void
+		{
+			super.dispose();
+			
+			_items.length = 0;
+			_items = null;
+			
+			_selectedItem = null;
+		}
 
 		public function add(item:AccordionItem):void
 		{
