@@ -24,7 +24,6 @@
  */
 package simpleAccordion.src.feathers.themes
 {
-	import com.manuelodelain.feathers.controls.accordion.AccordionItem;
 	import feathers.controls.Alert;
 	import feathers.controls.Button;
 	import feathers.controls.ButtonGroup;
@@ -82,6 +81,8 @@ package simpleAccordion.src.feathers.themes
 	import starling.events.Event;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
+
+	import com.manuelodelain.feathers.controls.TogglePanel;
 
 	import flash.display.BitmapData;
 	import flash.geom.Rectangle;

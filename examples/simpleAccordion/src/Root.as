@@ -1,18 +1,18 @@
 package simpleAccordion.src
 {
-	import feathers.controls.ScrollContainer;
-	import feathers.controls.Panel;
-	import feathers.layout.VerticalLayout;
 	import feathers.controls.Button;
 	import feathers.controls.Label;
+	import feathers.controls.Panel;
+	import feathers.controls.ScrollContainer;
+	import feathers.layout.VerticalLayout;
 
 	import simpleAccordion.src.feathers.themes.MetalWorksMobileTheme;
 
 	import starling.display.Sprite;
 	import starling.utils.AssetManager;
 
-	import com.manuelodelain.feathers.controls.accordion.Accordion;
-	import com.manuelodelain.feathers.controls.accordion.AccordionItem;
+	import com.manuelodelain.feathers.controls.Accordion;
+	import com.manuelodelain.feathers.controls.TogglePanel;
 
 	/**
 	 * @author Manuel Odelain
@@ -32,9 +32,10 @@ package simpleAccordion.src
 			var accordion:Accordion = new Accordion();
 			accordion.width = 400;
 			accordion.isToggle = true;
+			accordion.tweenDuration = 2;
 			addChild(accordion);
 			
-			var item1:AccordionItem = new AccordionItem();
+			var item1:TogglePanel = new TogglePanel();
 			item1.label = "Item 1";
 			accordion.add(item1);
 			
@@ -45,7 +46,7 @@ package simpleAccordion.src
 			label1.y = 10;
 			item1.add(label1);
 			
-			var item2:AccordionItem = new AccordionItem();
+			var item2:TogglePanel = new TogglePanel();
 			item2.label = "Item 2";
 			item2.layout = new VerticalLayout();
 			VerticalLayout(item2.layout).horizontalAlign = VerticalLayout.HORIZONTAL_ALIGN_CENTER;
