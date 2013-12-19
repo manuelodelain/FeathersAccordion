@@ -32,11 +32,11 @@ package simpleAccordion.src
 			var accordion:Accordion = new Accordion();
 			accordion.width = 400;
 			accordion.isToggle = true;
-			accordion.tweenDuration = 2;
+			accordion.tweenDuration = .4;
 			addChild(accordion);
 			
 			var item1:TogglePanel = new TogglePanel();
-			item1.label = "Item 1";
+			item1.headerProperties.title = "Item 1";
 			accordion.add(item1);
 			
 			var label1:Label = new Label();
@@ -47,7 +47,7 @@ package simpleAccordion.src
 			item1.add(label1);
 			
 			var item2:TogglePanel = new TogglePanel();
-			item2.label = "Item 2";
+			item2.headerProperties.title = "Item 2";
 			item2.layout = new VerticalLayout();
 			VerticalLayout(item2.layout).horizontalAlign = VerticalLayout.HORIZONTAL_ALIGN_CENTER;
 			VerticalLayout(item2.layout).gap = 10;

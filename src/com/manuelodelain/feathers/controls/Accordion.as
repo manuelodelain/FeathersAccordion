@@ -15,10 +15,6 @@ package com.manuelodelain.feathers.controls
 		protected var _isToggle:Boolean;
 		protected var _tweenDuration:Number;
 		protected var _tweenEase:String;
-		protected var _expandDuration:Number = TogglePanel.TWEEN_DURATION;
-		protected var _collapseDuration:Number = TogglePanel.TWEEN_DURATION;
-		protected var _expandEase:String = TogglePanel.TWEEN_EASE;
-		protected var _collapseEase:String = TogglePanel.TWEEN_EASE;
 		
 		public function Accordion()
 		{
@@ -29,14 +25,15 @@ package com.manuelodelain.feathers.controls
 			super.initialize();
 			
 			layout = new VerticalLayout();
-
-			addEventListener(Event.SELECT, _onSelectItem);
 		}
 
-		protected function _onSelectItem(event:Event):void
+		protected function _onChange():void
 		{
-			event.stopImmediatePropagation();
-			
+			dispatchEventWith(Event.CHANGE);
+		}
+
+		protected function _onChangeItem(event:Event):void
+		{
 			var item:ITogglePanel = ITogglePanel(event.target);
 			
 			if (item === _selectedItem) {
@@ -50,6 +47,7 @@ package com.manuelodelain.feathers.controls
 			_selectedItem = item;
 			
 			item.expand();
+			_onChange();
 		}
 		
 		override public function dispose():void
@@ -66,14 +64,11 @@ package com.manuelodelain.feathers.controls
 		{
 			_items.push(item);
 			
-			item.expandDuration = _expandDuration;
-			item.expandEase = _expandEase;
-			item.collapseDuration = _expandDuration;
-			item.collapseEase = _collapseEase;
 			if (!isNaN(_tweenDuration)) item.tweenDuration = _tweenDuration;
-			if (!_tweenEase) item.tweenEase = _tweenEase;
+			if (_tweenEase) item.tweenEase = _tweenEase;
 			
 			DisplayObject(item).width = explicitWidth;
+			DisplayObject(item).addEventListener(Event.CHANGE, _onChangeItem);
 			
 			addChild(DisplayObject(item));
 		}
@@ -85,6 +80,7 @@ package com.manuelodelain.feathers.controls
 			if (index === -1) return;
 			
 			_items.splice(index, 1);
+			DisplayObject(item).removeEventListener(Event.CHANGE, _onChangeItem);
 			removeChild(DisplayObject(item));
 		}
 
@@ -93,9 +89,9 @@ package com.manuelodelain.feathers.controls
 			return _isToggle;
 		}
 
-		public function set isToggle(isToggle:Boolean):void
+		public function set isToggle(value:Boolean):void
 		{
-			_isToggle = isToggle;
+			_isToggle = value;
 		}
 
 		public function get tweenDuration():Number
@@ -130,69 +126,14 @@ package com.manuelodelain.feathers.controls
 			}
 		}
 
-		public function get expandDuration():Number
+		public function get selectedItem():ITogglePanel
 		{
-			return _expandDuration;
+			return _selectedItem;
 		}
 
-		public function set expandDuration(value:Number):void
+		public function get items():Vector.<ITogglePanel>
 		{
-			_expandDuration = value;
-			
-			var n:int = _items.length;
-			
-			for (var i:int = 0; i < n; i++){
-				_items[i].expandDuration = _expandDuration;
-			}
+			return _items;
 		}
-
-		public function get collapseDuration():Number
-		{
-			return _collapseDuration;
-		}
-
-		public function set collapseDuration(value:Number):void
-		{
-			_collapseDuration = value;
-			
-			var n:int = _items.length;
-			
-			for (var i:int = 0; i < n; i++){
-				_items[i].collapseDuration = _collapseDuration;
-			}
-		}
-
-		public function get expandEase():String
-		{
-			return _expandEase;
-		}
-
-		public function set expandEase(value:String):void
-		{
-			_expandEase = value;
-			
-			var n:int = _items.length;
-			
-			for (var i:int = 0; i < n; i++){
-				_items[i].expandEase = _expandEase;
-			}
-		}
-
-		public function get collapseEase():String
-		{
-			return _collapseEase;
-		}
-
-		public function set collapseEase(value:String):void
-		{
-			_collapseEase = value;
-			
-			var n:int = _items.length;
-			
-			for (var i:int = 0; i < n; i++){
-				_items[i].collapseEase = _collapseEase;
-			}
-		}
-
 	}
 }

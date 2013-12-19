@@ -10,6 +10,8 @@ package com.manuelodelain.feathers.controls
 	import starling.display.DisplayObject;
 	import starling.events.Event;
 
+	import com.manuelodelain.feathers.events.TogglePanelEventType;
+
 	/**
 	 * @author Manuel Odelain
 	 */
@@ -20,15 +22,9 @@ package com.manuelodelain.feathers.controls
 		public static const TWEEN_EASE:String = Transitions.EASE_OUT;
 		
 		protected var _id:String;
-		protected var _label:String;
-		protected var _tweenDuration:Number;
-		protected var _tweenEase:String;
-		protected var _expandDuration:Number = TWEEN_DURATION;
-		protected var _collapseDuration:Number = TWEEN_DURATION;
-		protected var _expandEase:String = TWEEN_EASE;
-		protected var _collapseEase:String = TWEEN_EASE;
-		protected var _header:Button;
-		protected var _isExpanded:Boolean; 
+		protected var _isSelected:Boolean; 
+		protected var _tweenDuration:Number = TWEEN_DURATION;
+		protected var _tweenEase:String = TWEEN_EASE;
 		protected var _tweenViewport:Tween;
 		protected var _tweenViewportCompleteCallback:Function;
 		protected var _container:ScrollContainer = new ScrollContainer();
@@ -46,18 +42,17 @@ package com.manuelodelain.feathers.controls
 			if (_container.numChildren) _container.validate();
 			
 			viewPort.height = 0;
-			headerFactory = _createHeader;
-			verticalScrollPolicy = horizontalScrollPolicy = SCROLL_POLICY_OFF;
+			if (!headerFactory) headerFactory = _defaultHeaderFactory;
 		}
 		
-		protected function _createHeader():Button 
+		protected function _defaultHeaderFactory():Button 
 		{
-			_header = new Button();
-			_header.nameList.add(HEADER_NAME);
-			_header.addEventListener(Event.TRIGGERED, _onHeaderTriggered);
-			if (_label) _header.label = _label;
+			var header:Button = new Button();
+			header.nameList.add(HEADER_NAME);
+			header.addEventListener(Event.TRIGGERED, _onHeaderTriggered);
+			header.label = headerProperties.title;
 			
-			return _header;
+			return header;
 		}
 		
 		override protected function draw():void
@@ -70,28 +65,32 @@ package com.manuelodelain.feathers.controls
 
 		protected function _onHeaderTriggered(event:Event):void
 		{
-			_onSelect();
+			_onChange();
 		}
 
-		protected function _onSelect():void
+		protected function _onChange():void
 		{
-			dispatchEventWith(Event.SELECT, true, {id:_id});
+			dispatchEventWith(Event.CHANGE);
 		}
 		
 		protected function _onExpandStart():void
 		{
+			dispatchEventWith(TogglePanelEventType.EXPAND_START);
 		}
 
 		protected function _onExpandComplete():void
 		{
+			dispatchEventWith(TogglePanelEventType.EXPAND_COMPLETE);
 		}
 
 		protected function _onCollapseStart():void
 		{
+			dispatchEventWith(TogglePanelEventType.COLLAPSE_START);
 		}
 
 		protected function _onCollapseComplete():void
 		{
+			dispatchEventWith(TogglePanelEventType.COLLAPSE_COMPLETE);
 		}
 
 		protected function _onTweenViewportComplete():void
@@ -108,21 +107,16 @@ package com.manuelodelain.feathers.controls
 
 		public function toggle() : void 
 		{
-			if (_isExpanded) collapse();
+			if (_isSelected) collapse();
 			else expand();
 		}
 		
-		public function resizeViewport(viewportHeight:Number, withAnim:Boolean = true, options:Object = null):void
+		public function resizeViewport(viewportHeight:Number, withAnim:Boolean = true, onComplete:Function = null):void
 		{
-			var onComplete:Function = (options && options.onComplete) ? options.onComplete : null;
-			
 			if (withAnim) {
-				var duration:Number = (options && options.duration) ? options.duration : TWEEN_DURATION;
-				var ease:String = (options && options.ease) ? options.ease : TWEEN_EASE;
-				
 				if (onComplete !== null) _tweenViewportCompleteCallback = onComplete;
 				
-				_tweenViewport = new Tween(viewPort, duration, ease);
+				_tweenViewport = new Tween(viewPort, _tweenDuration, _tweenEase);
 				_tweenViewport.animate('height', viewportHeight);
 				_tweenViewport.roundToInt = true;//roundProps for fix the blink when collapsing item
 				_tweenViewport.onComplete = _onTweenViewportComplete;
@@ -136,19 +130,19 @@ package com.manuelodelain.feathers.controls
 
 		public function expand(withAnim:Boolean = true):void
 		{
-			if (_isExpanded) return;
+			if (_isSelected) return;
 			
-			_isExpanded = true;
+			_isSelected = true;
 			
 			_onExpandStart();
-			resizeViewport(_container.height, withAnim, {onComplete:_onExpandComplete, duration:_expandDuration, ease:_expandEase});
+			resizeViewport(_container.height, withAnim, _onExpandComplete);
 		}
 		
 		public function collapse(withAnim:Boolean = true):void
 		{
-			if (!_isExpanded) return;
+			if (!_isSelected) return;
 			
-			_isExpanded = false;
+			_isSelected = false;
 			
 			if (_tweenViewport){
 				Starling.current.juggler.remove(_tweenViewport);
@@ -156,7 +150,7 @@ package com.manuelodelain.feathers.controls
 			}
 			
 			_onCollapseStart();
-			resizeViewport(0, withAnim, {onComplete:_onCollapseComplete, duration:_collapseDuration, ease:_collapseEase});
+			resizeViewport(0, withAnim, _onCollapseComplete);
 		}
 		
 		override public function dispose():void
@@ -168,7 +162,6 @@ package com.manuelodelain.feathers.controls
 				_tweenViewport = null;
 			}
 			
-			_header = null;
 			_tweenViewportCompleteCallback = null;
 		}
 
@@ -182,56 +175,6 @@ package com.manuelodelain.feathers.controls
 			_id = id;
 		}
 
-		public function get label():String
-		{
-			return _label;
-		}
-
-		public function set label(label:String):void
-		{
-			_label = label;
-		}
-
-		public function get expandDuration():Number
-		{
-			return _expandDuration;
-		}
-
-		public function set expandDuration(value:Number):void
-		{
-			_expandDuration = value;
-		}
-
-		public function get collapseDuration():Number
-		{
-			return _collapseDuration;
-		}
-
-		public function set collapseDuration(value:Number):void
-		{
-			_collapseDuration = value;
-		}
-
-		public function get expandEase():String
-		{
-			return _expandEase;
-		}
-
-		public function set expandEase(value:String):void
-		{
-			_expandEase = value;
-		}
-
-		public function get collapseEase():String
-		{
-			return _collapseEase;
-		}
-
-		public function set collapseEase(value:String):void
-		{
-			_collapseEase = value;
-		}
-
 		public function get tweenDuration():Number
 		{
 			return _tweenDuration;
@@ -240,7 +183,6 @@ package com.manuelodelain.feathers.controls
 		public function set tweenDuration(value:Number):void
 		{
 			_tweenDuration = value;
-			expandDuration = collapseDuration = _tweenDuration;
 		}
 
 		public function get tweenEase():String
@@ -251,7 +193,11 @@ package com.manuelodelain.feathers.controls
 		public function set tweenEase(value:String):void
 		{
 			_tweenEase = value;
-			expandEase = collapseEase = _tweenEase;
+		}
+
+		public function get isSelected():Boolean
+		{
+			return _isSelected;
 		}
 	}
 }
